@@ -1,6 +1,7 @@
 ﻿using NFeedReader.Data;
 using NFeedReader.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
@@ -32,7 +33,7 @@ namespace NFeedReader.Services
             {
                 items.AddRange(task.Result);
             }
-            return items;
+            return items.OrderByDescending(i => i.PublicationDate).ToList();
         }
 
         public Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)
@@ -51,10 +52,13 @@ namespace NFeedReader.Services
         public XmlNode Open(string uri)
         {
             var client = new WebClient();
+            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
             using (var reader = new XmlTextReader(client.OpenRead(uri)))
             {
                 XmlDocument document = new XmlDocument();
                 document.Load(reader);
+                XmlNamespaceManager nsmgr = new XmlNamespaceManager(document.NameTable);
+                nsmgr.AddNamespace("media", "urn:newbooks-schema");
                 return document;
             }
         }

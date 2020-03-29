@@ -50,16 +50,25 @@ namespace NFeedReader.Services
             item.Description = ParseText(node.SelectSingleNode("description"));
             item.Link = ParseText(node.SelectSingleNode("link"));
             item.Title = ParseText(node.SelectSingleNode("title"));
-            var enclosure = ParseText(node.SelectSingleNode("enclosure/@url"));           
-            item.ImageUri = ParseText(node.SelectSingleNode("media/@url"));
+
+            TryParseText(node.SelectSingleNode("enclosure/@url"), (value) => item.ImageUri = value);            
+            TryParseText(node.SelectSingleNode("media:content/@url"), (value) => item.ImageUri = value);
             item.PublicationDate = DateTime.Today;
             string date = ParseText(node.SelectSingleNode("pubDate"));
-            if(string.IsNullOrEmpty(date) && DateTime.TryParse(date, out DateTime pubDate))
+            if(!string.IsNullOrEmpty(date) && DateTime.TryParse(date, out DateTime pubDate))
             {
                 item.PublicationDate = pubDate;
             }
                 
             return item;
+        }
+
+        private void TryParseText(XmlNode node, Action<string> OnChange)
+        {
+            if(node != null)
+            {
+                OnChange(node.InnerText);
+            }
         }
 
         private string ParseText(XmlNode node)

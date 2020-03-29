@@ -59,7 +59,7 @@ else
 }
 
 @code {
-    private readonly Feed _feed = new Feed();
+    private Feed _feed = new Feed();
     private List<Feed> feeds;
 
     private async Task Add_Click()
@@ -67,8 +67,7 @@ else
         await FeedRepository.AddAsync(_feed);
         await FeedRepository.SaveAsync();
         feeds?.Add(_feed);
-        _feed.Name = "";
-        _feed.Url = "";
+        _feed = new Feed();
     }
 
     protected override async Task OnInitializedAsync()
