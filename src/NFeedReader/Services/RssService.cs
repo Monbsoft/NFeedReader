@@ -1,9 +1,6 @@
 ﻿using NFeedReader.Data;
 using NFeedReader.Models;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
@@ -25,13 +22,13 @@ namespace NFeedReader.Services
         {
             List<RssItem> items = new List<RssItem>();
             var tasks = new List<Task<List<RssItem>>>();
-            foreach(var feed in await _feedRepository.GetFeedsAsync())
+            foreach (var feed in await _feedRepository.GetFeedsAsync())
             {
-                var task = GetRssItemsAsync(feed, limit);         
+                var task = GetRssItemsAsync(feed, limit);
                 tasks.Add(task);
             }
-            await Task.WhenAll(tasks);            
-            foreach(var task in tasks)
+            await Task.WhenAll(tasks);
+            foreach (var task in tasks)
             {
                 items.AddRange(task.Result);
             }
@@ -40,8 +37,15 @@ namespace NFeedReader.Services
 
         public Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)
         {
-            var channelNode = _rssParser.ParseChannel(Open(feed.Url));
-            return Task.FromResult(_rssParser.ParseItems(channelNode, limit));
+            try
+            {
+                var channelNode = _rssParser.ParseChannel(Open(feed.Url));
+                return Task.FromResult(_rssParser.ParseItems(channelNode, feed: feed, limit: limit));
+            }
+            catch (WebException ex)
+            {
+                return Task.FromResult(new List<RssItem>());
+            }
         }
 
         public XmlNode Open(string uri)
@@ -54,6 +58,5 @@ namespace NFeedReader.Services
                 return document;
             }
         }
-
     }
 }

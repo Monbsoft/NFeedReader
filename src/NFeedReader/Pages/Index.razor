@@ -2,37 +2,15 @@
 @inject RssService RssService
 
 <h1>Articles</h1>
-@if(items == null)
-{
-    <Loading />
-}
-else
-{
-<div class="row">
-    @foreach(var item in items)
-    {
-    <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-            <img src="@item.ImageUri" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">@item.Title</h5>
-                <p class="card-text text-truncate">@item.Description</p>
-                <a href="@item.Link" class="btn btn-primary" target="_blank">Voir</a>
-            </div>
-        </div>
-    </div>
 
-    }
-</div>
-}
-
+<RssItemList Items="@items"/>
 
 @code {
     private List<RssItem> items = null;
 
     protected override async Task OnInitializedAsync()
     {
-        items = await RssService.GetAllItemsAsync();
+        items = await RssService.GetAllItemsAsync(10);
 
     }
 }

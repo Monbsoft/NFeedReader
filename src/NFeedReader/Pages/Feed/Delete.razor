@@ -1,0 +1,30 @@
+﻿@page "/feed/delete/{id:int}"
+@inject FeedRepository FeedRepository
+@inject NavigationManager NavigationManager
+
+<div class="card border-primary mb-3">
+    <div class="card-header">@feed.Name</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">@feed.Url</h5>
+        <p class="card-text"></p>
+        <button class="btn btn-danger" @onclick="DeleteFeed">Delete</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Feed feed;
+    protected override async Task OnInitializedAsync()
+    {
+        feed = await FeedRepository.GetByIdAsync(Id);
+    }
+
+    private async Task DeleteFeed()
+    {
+        await FeedRepository.DeleteAsync(Id);
+        await FeedRepository.SaveAsync();
+        NavigationManager.NavigateTo("/settings/feeds");
+    }
+}

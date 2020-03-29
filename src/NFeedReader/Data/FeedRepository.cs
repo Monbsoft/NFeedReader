@@ -20,7 +20,6 @@ namespace NFeedReader.Data
         public async Task AddAsync(Feed feed)
         {            
             feed.CreationDate = DateTime.Today;
-            feed.Name = " ";
             await _context.Feeds.AddAsync(feed);
         }
 

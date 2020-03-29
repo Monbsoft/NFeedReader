@@ -1,0 +1,21 @@
+﻿<div class="col mb-4">
+    <a  class="text-decoration-none" href="@Item.Link" target="_blank">
+        <div class="card h-100">
+            <img src="@Item.ImageUri" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Item.Title</h5>
+                <p class="card-text">
+                    <span class="d-inline-block text-truncate" style="max-width: 300px;">
+                        @Item.Description
+                    </span>
+                </p>
+                <p><span class="badge badge-secondary">@Item.FeedName</span></p>
+            </div>
+        </div>
+    </a>
+
+</div>
+@code {
+    [Parameter]
+    public RssItem Item { get; set; }
+}
