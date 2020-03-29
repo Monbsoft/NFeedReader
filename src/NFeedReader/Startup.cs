@@ -35,6 +35,7 @@ namespace NFeedReader
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<FeedRepository>();
             services.AddScoped<RssService>();
+            services.AddScoped<RssParser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

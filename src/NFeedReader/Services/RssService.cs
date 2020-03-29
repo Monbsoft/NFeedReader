@@ -13,19 +13,21 @@ namespace NFeedReader.Services
     public class RssService
     {
         private readonly FeedRepository _feedRepository;
+        private readonly RssParser _rssParser;
 
-        public RssService(FeedRepository feedRepository)
+        public RssService(FeedRepository feedRepository, RssParser parser)
         {
             _feedRepository = feedRepository;
+            _rssParser = parser;
         }
 
-        public async Task<List<RssItem>> GetRssItemsAsync(int? limit = null)
+        public async Task<List<RssItem>> GetAllItemsAsync(int? limit = null)
         {
             List<RssItem> items = new List<RssItem>();
             var tasks = new List<Task<List<RssItem>>>();
             foreach(var feed in await _feedRepository.GetFeedsAsync())
             {
-                var task = GetRssItemsAsync(feed, limit);
+                var task = GetRssItemsAsync(feed, limit);         
                 tasks.Add(task);
             }
             await Task.WhenAll(tasks);            
@@ -36,64 +38,22 @@ namespace NFeedReader.Services
             return items;
         }
 
-        public async Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)
+        public Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)
         {
-            var items = new List<RssItem>();
-            var rssFeed = await GetRssFromUriAsync(feed.Url, limit);
-            return rssFeed.Items;
+            var channelNode = _rssParser.ParseChannel(Open(feed.Url));
+            return Task.FromResult(_rssParser.ParseItems(channelNode, limit));
         }
 
-        public Task<RssFeed> GetRssFromUriAsync(string uri, int? limit =null)
+        public XmlNode Open(string uri)
         {
             var client = new WebClient();
             using (var reader = new XmlTextReader(client.OpenRead(uri)))
             {
                 XmlDocument document = new XmlDocument();
                 document.Load(reader);
-                return Task.FromResult(ParseRssFeed(document, limit));
+                return document;
             }
         }
 
-        private RssFeed ParseRssFeed(XmlNode node, int? limit)
-        {
-            RssFeed result = new RssFeed();
-
-            var channelNode = node.SelectSingleNode("rss/channel");
-            result.Title = channelNode.SelectSingleNode("title").InnerText;
-            result.Link = channelNode.SelectSingleNode("link").InnerText;
-            result.Description = channelNode.SelectSingleNode("description").InnerText;            
-
-            var itemNodes = channelNode.SelectNodes("item");
-            int itemLimit = limit ?? itemNodes.Count;
-            for(int i=0; i<itemLimit; i++)
-            {
-                var item = ParseItem(itemNodes[i]);
-                result.Items.Add(item);
-            }
-            return result;
-        }
-
-        private RssItem ParseItem(XmlNode node)
-        {
-            RssItem item = new RssItem();
-            item.Description = ParseValue(node.SelectSingleNode("description"));
-            item.Link = ParseValue(node.SelectSingleNode("link"));
-            item.Title = ParseValue(node.SelectSingleNode("title"));
-            var enclosure = node.SelectSingleNode("enclosure/@url");
-            if (enclosure != null)
-            {
-                item.ImageUri = enclosure.InnerText;
-            }
-            return item;
-        }
-
-        private string ParseValue(XmlNode node)
-        {
-            if(node == null)
-            {
-                return string.Empty;
-            }
-            return node.InnerText;
-        }
     }
 }

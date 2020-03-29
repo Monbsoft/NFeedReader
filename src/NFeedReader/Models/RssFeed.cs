@@ -9,13 +9,12 @@ namespace NFeedReader.Models
     public class RssFeed
     {
         public RssFeed()
-        {          
-            Items = new List<RssItem>();            
+        {                   
         }
 
         public string Description { get; set; }
 
-        public List<RssItem> Items { get; }
+        public List<RssItem> Items { get; set; }
 
         public string Title { get; set; }
 
