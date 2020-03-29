@@ -11,7 +11,7 @@ namespace NFeedReader.Models
         public NFeedReaderContext(DbContextOptions<NFeedReaderContext> options)
             : base(options)
         {
-
+      
         }
 
         public DbSet<Feed> Feeds { get; set; }

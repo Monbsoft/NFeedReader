@@ -1,0 +1,66 @@
+﻿@page "/settings/feeds"
+@inject NavigationManager NavigationManager
+@inject FeedRepository  FeedService
+
+<h3>Feeds</h3>
+<EditForm Model="_feed" OnValidSubmit="@Add_Click">
+    <DataAnnotationsValidator/>
+    <div class="form-row">
+        <div class="form-group col-md-11">
+            <label>Feed Url</label>
+            <InputText class="form-control" placeholder="Feed url" @bind-Value="_feed.Url" />
+            <ValidationMessage For="(() => _feed.Url)" />
+        </div>
+        <div class="form-group col-md-1 d-flex align-items-end text-right">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@if(feeds == null)
+{
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+}
+else
+{
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Url</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var feed in feeds)
+        {
+            <tr>
+                <td>@feed.Name</td>
+                <td>@feed.Url</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+
+@code {
+    private readonly Feed _feed = new Feed();
+    private List<Feed> feeds;
+
+    private async Task Add_Click()
+    {
+        await FeedService.AddAsync(_feed);
+        await FeedService.SaveAsync();
+
+        NavigationManager.NavigateTo("/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        feeds = await FeedService.GetFeedsAsync();
+    }
+
+}

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NFeedReader.Data;
 using NFeedReader.Models;
+using NFeedReader.Services;
 
 namespace NFeedReader
 {
@@ -32,6 +33,8 @@ namespace NFeedReader
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<FeedRepository>();
+            services.AddScoped<RssService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
