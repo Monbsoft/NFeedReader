@@ -1,7 +1,7 @@
-﻿@page  "/news"
+﻿@page  "/channels"
 @inject FeedRepository  FeedRepository
 
-<h1>Actualités</h1>
+<h1>Canaux</h1>
 
 @if (feeds == null)
 {
@@ -20,8 +20,12 @@ else
                 if (j < feeds.Count)
                 {
                     var current = feeds[j];
+                    <a href="@($"/channel/{feeds[i].Id}")" class="btn  btn-light">
+                        <div class="card h-100">
 
-                    <Card Title="@current.Name" />
+                            <Card Title="@current.Name" />
+                        </div>
+                    </a>
                 }
                 else
                 {
@@ -30,6 +34,7 @@ else
                 }
             }
         </div>
+
     }
 }
 

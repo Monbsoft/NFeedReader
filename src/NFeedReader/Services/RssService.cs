@@ -1,4 +1,5 @@
-﻿using NFeedReader.Data;
+﻿
+using NFeedReader.Data;
 using NFeedReader.Models;
 using System;
 using System.Collections.Generic;
