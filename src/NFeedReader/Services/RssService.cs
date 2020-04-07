@@ -1,5 +1,6 @@
 ﻿using NFeedReader.Data;
 using NFeedReader.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,7 +34,9 @@ namespace NFeedReader.Services
             {
                 items.AddRange(task.Result);
             }
-            return items.OrderByDescending(i => i.PublicationDate).ToList();
+            return items
+                .Where(i => i.PublicationDate >= DateTime.Now.AddDays(-1))
+                .OrderByDescending(i => i.PublicationDate).ToList();
         }
 
         public Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)

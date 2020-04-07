@@ -1,0 +1,32 @@
+﻿<div class="col mb-4">
+    <a class="text-decoration-none" href="@Link" target="_blank">
+        <div class="card h-100">
+            <img src="@ImageUri" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Title</h5>
+                <p class="card-text">
+                    <span class="d-inline-block text-truncate" style="max-width: 300px;">
+                        @Description
+                    </span>
+                </p>
+                <p><span class="badge badge-secondary"></span></p>
+            </div>
+        </div>
+    </a>
+
+</div>
+
+@code {
+    [Parameter]
+    public string ImageUri { get; set; }
+
+    [Parameter]
+    public string Link { get; set; }
+
+    [Parameter]
+    public string Description { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+}

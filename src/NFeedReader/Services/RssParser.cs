@@ -52,7 +52,7 @@ namespace NFeedReader.Services
             item.Title = ParseText(node.SelectSingleNode("title"));
 
             TryParseText(node.SelectSingleNode("enclosure/@url"), (value) => item.ImageUri = value);            
-            TryParseText(node.SelectSingleNode("media:content/@url"), (value) => item.ImageUri = value);
+            //TryParseText(node.SelectSingleNode("media:content/@url"), (value) => item.ImageUri = value);
             item.PublicationDate = DateTime.Today;
             string date = ParseText(node.SelectSingleNode("pubDate"));
             if(!string.IsNullOrEmpty(date) && DateTime.TryParse(date, out DateTime pubDate))
