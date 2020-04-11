@@ -39,7 +39,9 @@ namespace NFeedReader.Services
             }
             return items
                 .Where(i => i.PublicationDate >= DateTime.Now.AddDays(-1))
-                .OrderByDescending(i => i.PublicationDate).ToList();
+                .OrderByDescending(i => i.PublicationDate)
+                .Distinct()
+                .ToList();
         }
 
         public Task<List<RssItem>> GetRssItemsAsync(Feed feed, int? limit = null)

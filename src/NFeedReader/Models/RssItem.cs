@@ -11,5 +11,23 @@ namespace NFeedReader.Models
         public string Link { get; set; }
         public DateTime PublicationDate { get; set; }
         public string Title { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            RssItem other = obj as RssItem;
+            if(other == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Title.Equals(other.Title);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Title.GetHashCode();
+        }
     }
 }

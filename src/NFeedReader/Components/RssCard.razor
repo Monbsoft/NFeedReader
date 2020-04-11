@@ -1,11 +1,7 @@
 ﻿<div class="col mb-4">
     <a  class="text-decoration-none" href="@Item.Link" target="_blank">
         <div class="card h-100">
-            @if (string.IsNullOrEmpty(Item.ImageUri))
-            {
-                <img src="~/img/newspaper.png" class="img-fluid" alt="Actualité">
-            }
-            else
+            @if (!string.IsNullOrEmpty(Item.ImageUri))
             {
                 <img src="@Item.ImageUri" class="card-img-top" alt="...">
             }

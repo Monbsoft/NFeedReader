@@ -1,7 +1,10 @@
 ﻿<div class="col mb-4">
-    <a class="text-decoration-none" href="@Link" target="_blank">
+    <a class="text-decoration-none" href="@Link">
         <div class="card h-100">
-            <img src="@ImageUri" class="card-img-top" alt="...">
+            @if (!string.IsNullOrEmpty(ImageUri))
+            {
+                <img src="@ImageUri" class="card-img-top" alt="...">
+            }
             <div class="card-body">
                 <h5 class="card-title">@Title</h5>
                 <p class="card-text">
@@ -13,7 +16,6 @@
             </div>
         </div>
     </a>
-
 </div>
 
 @code {

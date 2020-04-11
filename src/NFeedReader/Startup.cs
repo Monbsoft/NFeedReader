@@ -38,6 +38,8 @@ namespace NFeedReader
             services.AddScoped<FeedRepository>();
             services.AddScoped<RssService>();
             services.AddScoped<RssParser>();
+            services.AddScoped<RssReader>();
+            services.AddScoped<FeedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
