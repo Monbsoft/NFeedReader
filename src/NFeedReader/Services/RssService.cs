@@ -14,11 +14,13 @@ namespace NFeedReader.Services
     {
         private readonly FeedRepository _feedRepository;
         private readonly RssParser _rssParser;
+        private readonly RssReader _rssReader;
 
-        public RssService(FeedRepository feedRepository, RssParser parser)
+        public RssService(FeedRepository feedRepository, RssReader rssReader,  RssParser parser)
         {
             _feedRepository = feedRepository;
             _rssParser = parser;
+            _rssReader = rssReader;
         }
 
         public async Task<List<RssItem>> GetAllItemsAsync(int? limit = null)
@@ -44,26 +46,13 @@ namespace NFeedReader.Services
         {
             try
             {
-                var channelNode = _rssParser.ParseChannel(Open(feed.Url));
+                var root = _rssReader.Open(feed.Url);
+                var channelNode = _rssParser.ParseChannel(root);
                 return Task.FromResult(_rssParser.ParseItems(channelNode, feed: feed, limit: limit));
             }
             catch (WebException ex)
             {
                 return Task.FromResult(new List<RssItem>());
-            }
-        }
-
-        public XmlNode Open(string uri)
-        {
-            var client = new WebClient();
-            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
-            using (var reader = new XmlTextReader(client.OpenRead(uri)))
-            {
-                XmlDocument document = new XmlDocument();
-                document.Load(reader);
-                XmlNamespaceManager nsmgr = new XmlNamespaceManager(document.NameTable);
-                nsmgr.AddNamespace("media", "urn:newbooks-schema");
-                return document;
             }
         }
     }

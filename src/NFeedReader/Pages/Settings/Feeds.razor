@@ -1,5 +1,6 @@
 ﻿@page "/settings/feeds"
 @inject NavigationManager NavigationManager
+@inject FeedService FeedService;
 @inject FeedRepository  FeedRepository
 
 <h3>Feeds</h3>
@@ -64,8 +65,7 @@ else
 
     private async Task Add_Click()
     {
-        await FeedRepository.AddAsync(_feed);
-        await FeedRepository.SaveAsync();
+        await FeedService.AddAsync(_feed);
         feeds?.Add(_feed);
         _feed = new Feed();
     }

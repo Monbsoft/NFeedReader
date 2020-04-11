@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NFeedReader.Models;
 
-namespace NFeedReader.Data.Migrations
+namespace NFeedReader.Migrations
 {
     [DbContext(typeof(NFeedReaderContext))]
-    [Migration("20200328160240_Initial")]
+    [Migration("20200410234921_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,13 @@ namespace NFeedReader.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

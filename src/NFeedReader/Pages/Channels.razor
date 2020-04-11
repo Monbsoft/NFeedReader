@@ -20,11 +20,9 @@ else
                 if (j < feeds.Count)
                 {
                     var current = feeds[j];
-                    <a href="@($"/channel/{feeds[i].Id}")" class="btn  btn-light">
-                        <div class="card h-100">
+                    <a href="@($"/channel/{current.Id}")" class="btn  btn-light">
 
-                            <Card Title="@current.Name" />
-                        </div>
+                        <Card Title="@current.Name" Description="@current.Description" ImageUri="@current.ImageUrl" />
                     </a>
                 }
                 else

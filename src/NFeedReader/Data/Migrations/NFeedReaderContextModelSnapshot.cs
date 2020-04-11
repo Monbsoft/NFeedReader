@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NFeedReader.Models;
 
-namespace NFeedReader.Data.Migrations
+namespace NFeedReader.Migrations
 {
     [DbContext(typeof(NFeedReaderContext))]
     partial class NFeedReaderContextModelSnapshot : ModelSnapshot
@@ -23,6 +23,13 @@ namespace NFeedReader.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
