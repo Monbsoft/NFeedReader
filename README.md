@@ -6,6 +6,17 @@ NFeedReader is a free self-hosted feed rss agregator based on ASP.NET Core
 ## Blazor
 Blazor is a .NET web framework to build client web apps with C#.
 
+## Build 
+Build the database
+```
+dotnet ef database update
+```
+
+Build the application
+```
+electronize start
+```
+
 ## Credits
 * [ElectronNet](https://github.com/ElectronNET/Electron.NET)
 * [FreshRSS](https://github.com/FreshRSS/FreshRSS)
