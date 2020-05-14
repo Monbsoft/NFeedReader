@@ -8,8 +8,11 @@
 @code {
     private List<RssItem> items = null;
 
+
+
     protected override async Task OnInitializedAsync()
     {
+
         items = await RssService.GetAllItemsAsync(10);
 
     }
