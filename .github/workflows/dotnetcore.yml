@@ -21,6 +21,6 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: electronize build /target win
+        run: electronize build /target linux
       - name: Test
         run: dotnet test --no-restore --verbosity normal
