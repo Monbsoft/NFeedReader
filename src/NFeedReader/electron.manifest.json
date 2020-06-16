@@ -8,7 +8,7 @@
     "appId": "com.NFeedReader.app",
     "productName": "NFeedReader",
     "copyright": "Copyright © 2019",
-    "buildVersion": "1.0.0",
+    "buildVersion": "0.2.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
