@@ -3,12 +3,17 @@
 
 <h1>Articles</h1>
 
-<RssItemList Items="@items"/>
+@if (items == null)
+{
+    <Loading />
+}
+else
+{
+    <RssItemList Items="@items" />
+}
 
 @code {
     private List<RssItem> items = null;
-
-
 
     protected override async Task OnInitializedAsync()
     {

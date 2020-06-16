@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NFeedReader.Models
 {
@@ -10,10 +6,11 @@ namespace NFeedReader.Models
     {
         public NFeedReaderContext(DbContextOptions<NFeedReaderContext> options)
             : base(options)
-        {
-      
+        {      
         }
 
         public DbSet<Feed> Feeds { get; set; }
+
+        public DbSet<Favorite> Favorites { get; set; }
     }
 }

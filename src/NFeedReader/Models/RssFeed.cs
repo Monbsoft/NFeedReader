@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Collections.Generic;
 
 namespace NFeedReader.Models
 {
     public class RssFeed
     {
-        public RssFeed()
-        {                   
-        }
-
         public string Description { get; set; }
 
         public List<RssItem> Items { get; set; }
