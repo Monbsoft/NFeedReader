@@ -34,8 +34,8 @@ namespace NFeedReader
                 options.UseSqlite(Configuration.GetConnectionString("NFeedReaderContext")));
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddScoped<FeedRepository>();
+            services.AddScoped<FavoriteRepository>();
             services.AddScoped<RssService>();
             services.AddScoped<RssParser>();
             services.AddScoped<RssReader>();

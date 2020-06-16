@@ -1,5 +1,5 @@
 ﻿<div class="col mb-4">
-    <a class="text-decoration-none" href="@Link">
+    <a class="text-decoration-none" href="@Link" target="@target">
         <div class="card h-100">
             @if (!string.IsNullOrEmpty(ImageUri))
             {
@@ -19,6 +19,12 @@
 </div>
 
 @code {
+
+    private string target => NewLink ? "_blank" : null;
+
+    [Parameter]
+    public bool NewLink { get; set; }
+
     [Parameter]
     public string ImageUri { get; set; }
 

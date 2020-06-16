@@ -1,0 +1,44 @@
+﻿@page  "/favorites"
+@inject FavoriteRepository  FavoriteRepository
+
+<h1>Favoris</h1>
+
+@if (favorites == null)
+{
+    <Loading />
+}
+else
+{
+
+    @for (int i = 0; i < favorites.Count; i = i + 3)
+    {
+        int max = i + 3;
+
+        <div class="row row-cols-1 row-cols-md-3">
+            @for (int j = i; j < max; j++)
+            {
+                if (j < favorites.Count)
+                {
+                    var current = favorites[j];
+
+                    <Card Title="@current.Name" Link="@current.Uri" Description="@DateHelper.Display(current.CreationDate)" NewLink=true />
+                }
+                else
+                {
+                    <div class="col mb-4">
+                    </div>
+                }
+            }
+        </div>
+
+    }
+}
+
+@code {
+    private List<Models.Favorite> favorites;
+
+    protected override async Task OnInitializedAsync()
+    {
+        favorites = await FavoriteRepository.GetFavoritesAsync();
+    }
+}
